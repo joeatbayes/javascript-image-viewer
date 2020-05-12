@@ -61,7 +61,7 @@
     <br/>
 
     <label class="sliderLabel" for="rotate">Rotate</label>
-    <input id="rotate"  type="range" min="-359" max="359" step="1" value="0" class="slider"  onInput="slideChange(GSet, this)" />
+    <input id="rotate"  type="range" min="-90" max="180" step="1" value="0" class="slider"  onInput="slideChange(GSet, this)" />
     <span id="rotateVal" class="sliderVal"></span>
     <br/>
 
@@ -77,6 +77,7 @@
     <br/>
         
     <br/><hr>
+    <button type="button" id="resetBtn" onClick="resetBtn(GSet)">Reset</button>
     <button type="button" id="getjson" onClick="getSetJSON(GSet)">Get JSON</button>
 
   

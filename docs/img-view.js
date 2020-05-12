@@ -1,3 +1,5 @@
+"use strict";
+
 function toDiv(divId, message) {
     var tdiv = document.getElementById(divId);
     if ((tdiv == undefined) || (tdiv == null)) {
@@ -7,8 +9,6 @@ function toDiv(divId, message) {
     }
     tdiv.innerHTML = message;
 }
-set_div_contents = toDiv;
-to_div = toDiv;
 
 function getFormValue(divId, defVal) {
     var tdiv = document.getElementById(divId);
@@ -28,7 +28,7 @@ function setFormValue(divId, value) {
     return undefined;
 }
 
-"use strict";
+
    
 var GSet =  {
    xoff: 0.0,
@@ -123,7 +123,6 @@ var GSet =  {
          imgWidth = effWidth  / set.scale;
      }
 
-
      if (canvas.height >= effHeight) {
          portHeight = effHeight;
          portOffY = (canvas.height - effHeight) / 2.0;            
@@ -139,19 +138,12 @@ var GSet =  {
          imgTopLeftY = effOffsetY / set.scale;
          imgHeigth = effHeight / set.scale;
      }
-
      
      if (set.rotate != 0) {
-       //var shapeCenterX = (imgTopLeftX + imgWidth) / 2.0;
-       //var shapeCenterY = (imgTopLeftY + imgHeigth) / 2.0;
-       //var shapeCenterX = (portOffX + portWidth) / 2.0;
-       //var shapeCenterY = (portOffY + portHeight) / 2.0;
-       //ctx.translate(shapeCenterX, shapeCenterY);
        var radians = set.rotate * Math.PI / 180.0;
        ctx.translate(canvas.width / 2, canvas.height / 2);
        ctx.rotate( radians);
        ctx.translate(-canvas.width / 2, -canvas.height / 2);
-       //ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
      }
      var filtStrs = [];
      if (set.contrast != 100) {
@@ -201,6 +193,13 @@ var GSet =  {
      readControlVal(set);
      updateControlDispVal(set);
      drawImage(set)
+ }
+
+ function resetBtn(set) {
+    clearSet(set);
+    updateControlDispVal(set);
+    setControlVal(set);
+    drawToFit(set);
  }
 
  function getSetJSON(set) {
