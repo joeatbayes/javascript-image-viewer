@@ -105,8 +105,8 @@ function drawImage(set) {
         // compute an effective window and then convert back to image pixels
         portWidth = canvas.width;
         var effWidthRatio = effWidth / canvas.width;
-        var effWidth = Math.round(effWidth / effWidthRatio);
         var effExtraX = effWidth - canvas.width;
+        var effWidth = Math.round(effWidth / effWidthRatio);
         var effOffsetX = effExtraX * set.xoff;
         // Convert Effective Pixels to real Image pixels
         imgTopLeftX = effOffsetX / set.scale;
@@ -120,9 +120,9 @@ function drawImage(set) {
     } else {
         // compute effective window then convert back to image pixels
         portHeight = canvas.height
-        var effHeightRatio = effHeight / canvas.width;
-        var effHeight = Math.round(effHeight / effHeightRatio);
+        var effHeightRatio = effHeight / canvas.height;
         var effExtraY = effHeight - canvas.height;
+        var effHeight = Math.round(effHeight / effHeightRatio);
         var effOffsetY = effExtraY * set.yoff;
         // Convert Effective Pixels to real Image pixels
         imgTopLeftY = effOffsetY / set.scale;
