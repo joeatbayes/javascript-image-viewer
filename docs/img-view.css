@@ -7,8 +7,6 @@ label.sliderLabel {
     width: 50em;
 }
 #canvas {
-    xxwidth: 600px; 
-    xxheight:500px;
     display: inline-block;
     border: 1px solid grey;
 }
@@ -16,5 +14,30 @@ label.sliderLabel {
 #controls {
     display: inline-block;
     text-align: left;
+    vertical-align: top;
+}
+
+#thumbnails {
+    display: block;
+    padding-top: 2em;
+}
+
+#thumbnails img {
+    width: 80px;
+}
+
+#thumbnails img:hover {
+    border:5px solid #2b3341;
+    border-radius: 5px;
+}
+
+#currentSettings {
+    display: inline-block;
+    padding-top: 2em;
+    
+    
+}
+
+#setEditLabel {
     vertical-align: top;
 }

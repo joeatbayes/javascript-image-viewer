@@ -172,15 +172,18 @@ function loadAndDisplayImage(canvId, imgUri, set) {
     img.onload = function () {
         drawToFit(set);
         setControlVal(set);
+        updateJSONEdit(set);
     };
     img.src = imgUri;
+   
 }
 
 
 function slideChange(set, obj) {
     readControlVal(set);
     updateControlDispVal(set);
-    drawImage(set)
+    drawImage(set);
+    updateJSONEdit(set);
 }
 
 function resetBtn(set) {
@@ -188,12 +191,25 @@ function resetBtn(set) {
     updateControlDispVal(set);
     setControlVal(set);
     drawToFit(set);
+    updateJSONEdit(set);
 }
 
-function getSetJSON(set) {
+function updateJSONEdit(set) {
     var clone = JSON.parse(JSON.stringify(set))
     delete clone.img;
     delete clone.canvas;
     delete clone.context;
-    toDiv("JSON_SET", JSON.stringify(clone, 2));
+    setFormValue("setEdit", JSON.stringify(clone, null, ' '));
+}
+
+function applySettings(set, fldId) {
+    var setStr = getFormValue(fldId);
+    var tobj = JSON.parse(setStr);
+    for (var akey in tobj) {
+        set[akey] = tobj[akey];
+    }
+    updateControlDispVal(set);
+    setControlVal(set);
+    drawImage(set);
+
 }

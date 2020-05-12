@@ -27,7 +27,7 @@
     <br/>
 
     <label class="sliderLabel" for="rotate">Rotate</label>
-    <input id="rotate"  type="range" min="-90" max="180" step="1" value="0" class="slider"  onInput="slideChange(GSet, this)" />
+    <input id="rotate"  type="range" min="-180" max="180" step="1" value="0" class="slider"  onInput="slideChange(GSet, this)" />
     <span id="rotateVal" class="sliderVal"></span>
     <br/>
 
@@ -44,10 +44,27 @@
         
     <br/><hr>
     <button type="button" id="resetBtn" onClick="resetBtn(GSet)">Reset</button>
-    <button type="button" id="getjson" onClick="getSetJSON(GSet)">Get JSON</button>    
     <br/>
-    <a href = "https://github.com/joeatbayes/javascript-image-viewer" target="repo">Github Source Repo</a>    
-    <!--TODO:  Add some extra source images -->
+    
+
+    <div id="currentSettings">
+      <label for="setEdit" id="setEditLabel">Settings</label>
+      <textarea id="setEdit"  rows="8"  cols="80" 
+        title="Edit the JSON here and then click apply.  Or save it someplaces else and paste here to restore prior settings"></textarea>
+      <br>
+      <button type="button" id="applySet" onClick="applySettings(GSet, 'setEdit')" title="Click to parse JSON and update sliders above">Apply</button>
+      <br>
+      <a href = "https://github.com/joeatbayes/javascript-image-viewer" target="repo">Github Source Repo</a>    
+    </div>
+  </div>
+  <div id="thumbnails">
+    <img src="img/i0241.jpg"  title="img/i0241.jpg" onClick='loadAndDisplayImage("canvas","img/i0241.jpg", GSet)'/>
+    <img src="img/DSC_0002.JPG"  title="DSC_0002.JPG" onClick='loadAndDisplayImage("canvas","img/DSC_0002.JPG", GSet)'/>
+    <img src="img/DSC_0003.JPG"  title="DSC_0003.JPG" onClick='loadAndDisplayImage("canvas","img/DSC_0003.JPG", GSet)'/>
+    <img src="img/DSC_0007.JPG"  title="DSC_0007.JPG" onClick='loadAndDisplayImage("canvas","img/DSC_0007.JPG", GSet)'/>
+    <img src="img/DSC_0008.JPG"  title="DSC_0008.JPG" onClick='loadAndDisplayImage("canvas","img/DSC_0008.JPG", GSet)'/>
+    <img src="img/DSC_0009.JPG"  title="DSC_0009.JPG" onClick='loadAndDisplayImage("canvas","img/DSC_0009.JPG", GSet)'/>
+    <img src="img/DSC_0046.JPG"  title="DSC_0046.JPG" onClick='loadAndDisplayImage("canvas","img/DSC_0046.JPG", GSet)'/>
   </div>
 </body> 
 </html> 
