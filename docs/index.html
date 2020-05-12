@@ -2,46 +2,12 @@
     <head>
         <link rel="stylesheet" type="text/css" href="img-view.css" />
         <script src="img-view.js" type="text/javascript"></script>
-    
-
-
-<style>
-    label.sliderLabel {
-        min-width: 5em;
-        display:inline-block;
-    }
-
-    .slider {
-        width: 50em;
-    }
-    #canvas {
-        xxwidth: 600px; 
-        xxheight:500px;
-        display: inline-block;
-        border: 1px solid grey;
-    }
-
-    #controls {
-        display: inline-block;
-        xmin-width: 15em;
-        xmax-width: 25em;
-        text-align: left;
-        vertical-align: top;
-    }
-
-</style>
-</head>
-
-<script> 
-  
-  </script> 
+  </head>
 
 <body onload="loadAndDisplayImage('canvas', 'img/i0241.jpg', GSet)"> 
+  <canvas  id="canvas" width="800" height="600"></canvas> 
 
-
-<canvas  id="canvas" width="800" height="600"></canvas> 
-
-<div id="controls">
+  <div id="controls">
     <h3>Controls</h3>
 
     <label class="sliderLabel" for="scale">Scale</label>
@@ -81,8 +47,7 @@
     <button type="button" id="getjson" onClick="getSetJSON(GSet)">Get JSON</button>    
     <br/>
     <a href = "https://github.com/joeatbayes/javascript-image-viewer" target="repo">Github Source Repo</a>    
-</div>
-
-
+    <!--TODO:  Add some extra source images -->
+  </div>
 </body> 
 </html> 
