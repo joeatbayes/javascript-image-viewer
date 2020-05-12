@@ -63,17 +63,17 @@
         setFormValue("yoff", set.yoff);
         setFormValue("rotate", set.rotate);
         setFormValue("contrast", set.contrast);
-        setFormValue("bright", set.bright);
+        setFormValue("brightness", set.bright);
         updateControlDispVal(set);
     }
 
     function readControlVal(set) {
-        set.scale = parseFloat(getFormValue("scale", 1));
+        set.scale = parseFloat(getFormValue("scale", 1.0));
         set.xoff = parseFloat(getFormValue("xoff", 0.0));
         set.yoff = parseFloat(getFormValue("yoff", 0.0));
         set.rotate = parseInt(getFormValue("rotate", 0),10);
-        set.contrast = parseInt(getFormValue("contrast", 50),10);
-        set.bright = parseInt(getFormValue("bright", 50),10);
+        set.contrast = parseInt(getFormValue("contrast", 100),10);
+        set.bright = parseInt(getFormValue("brightness", 100),10);
     }
 
   
@@ -144,7 +144,16 @@
           ctx.translate(-canvas.width / 2, -canvas.height / 2);
           //ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         }
-        
+        var filtStrs = [];
+        if (set.contrast != 100) {
+          filtStrs.push("contrast(" + set.contrast + "%)");
+        }
+        if (set.bright != 100) {
+          filtStrs.push("brightness(" + set.bright + "%)");
+        }
+        if (filtStrs.length > 0) {
+          ctx.filter = filtStrs.join(" ");
+        }
         ctx.drawImage(img, imgTopLeftX, imgTopLeftY, imgWidth, imgHeigth, portOffX, portOffY, portWidth, portHeight);
         ctx.restore();
     }
@@ -161,7 +170,7 @@
        set.yoff = 0.0;
        set.scale = 1.0;
        set.rotate=0;
-       set.contrast = 50;
+       set.contrast = 100;
        set.bright=100;    
     }
 
@@ -186,7 +195,7 @@
     }
 
     function getSetJSON(set) {
-        clone = JSON.parse(JSON.stringify(set))
+        var clone = JSON.parse(JSON.stringify(set))
         delete clone.img;
         delete clone.canvas;
         delete clone.context;
@@ -198,7 +207,7 @@
 <body onload="loadAndDisplayImage('canvas', 'img/i0241.jpg', GSet)"> 
 
 
-<canvas  id="canvas" width="600" height="400"></canvas> 
+<canvas  id="canvas" width="800" height="600"></canvas> 
 
 <div id="controls">
     <h3>Controls</h3>
@@ -226,12 +235,12 @@
 
 
     <label class="sliderLabel" for="Contrast">Contrast</label>
-    <input id="contrast" type="range" min="1" max="100" value="50" class="slider"  onInput="slideChange(GSet, this)"/>
+    <input id="contrast" type="range" min="25" max="300" value="100" class="slider"  onInput="slideChange(GSet, this)"/>
     <span id="contrastVal" class="sliderVal"></span>
     <br/>
     
     <label class="sliderLabel" for="Brighness">Brightness</label>
-    <input id="Brightness" type="range" min="1" max="100" value="50" class="slider"  onInput="slideChange(GSet, this)"/>
+    <input id="brightness" type="range" min="25" max="300" value="100" class="slider"  onInput="slideChange(GSet, this)"/>
     <span id="brightVal" class="sliderVal"></span>
     <br/>
         
