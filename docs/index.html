@@ -97,8 +97,8 @@
         // Amount of Image to render can be size of image 
         // when image is smaller than canvas otherwise
         // we mathematically slice out a portion of it. 
-        var imgWidth =  img.width;
-        var imgHeigth = img.height;
+        var imgWidth =  img.width; // how much of image to take
+        var imgHeigth = img.height;// how much of image to take
 
         // Portlet size to render image the canvas can be 
         // the size of the canvas unless the image is smaller
@@ -112,23 +112,36 @@
         var portOffX = 0.0;
         var portOffY = 0.0;
 
-        if (canvas.width > effWidth) {
+        if (canvas.width >= effWidth) {
             portOffX = (canvas.width - effWidth) / 2.0;
             portWidth = effWidth;
             imgWidth = img.width;
-        } else if (effWidth > canvas.width) {
-            imgTopLeftX = (img.width - canvas.width) * set.xoff;
-            imgWidth = canvas.width * set.scale;
+        } else  {
+            // compute an effective window and then convert back to image pixels
+            portWidth = canvas.width;
+            var effWidthRatio = effWidth / canvas.width;
+            var effWidth = Math.round(effWidth / effWidthRatio);
+            var effExtraX = effWidth - canvas.width;
+            var effOffsetX = effExtraX * set.xoff;          
+            // Convert Effective Pixels to real pixels
+            imgTopLeftX = effOffsetX / set.scale;
+            imgWidth = effWidth  / set.scale;
         }
 
 
-        if (canvas.height > effHeight) {
-            portOffY = (canvas.height - effHeight) / 2.0;
+        if (canvas.height >= effHeight) {
             portHeight = effHeight;
+            portOffY = (canvas.height - effHeight) / 2.0;            
             imgHeigth = imgHeigth;
-        } else if (effHeight > canvas.height) {
-            imgTopLeftY = (img.height - canvas.height) * set.yoff;
-            imgHeigth = canvas.height * set.scale;
+        } else {
+            // compute effective window then convert back to image pixels
+            portHeight = canvas.height
+            var effHeightRatio = effHeight /  canvas.width;
+            var effHeight = Math.round(effHeight / effHeightRatio);
+            var effExtraY = effHeight - canvas.height;
+            var effOffsetY = effExtraY * set.yoff;
+            imgTopLeftY = effOffsetY / set.scale;
+            imgHeigth = effHeight * set.scale;
         }
 
         
