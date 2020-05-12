@@ -34,10 +34,23 @@ label.sliderLabel {
 #currentSettings {
     display: inline-block;
     padding-top: 2em;
-    
-    
 }
 
 #setEditLabel {
     vertical-align: top;
+}
+
+#recodedSet {
+    display: block;
+    background-color: rgb(236, 231, 222);
+    padding-top: 3em;
+}
+
+.recordedCode:hover {
+   text-decoration: underline;
+   font-weight: 800;
+}
+
+button {
+    margin-right: 2em;
 }

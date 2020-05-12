@@ -10,6 +10,16 @@ function toDiv(divId, message) {
     tdiv.innerHTML = message;
 }
 
+function appendDiv(divId, message) {
+    var tdiv = document.getElementById(divId);
+    if ((tdiv == undefined) || (tdiv == null)) {
+        tdiv = document.createElement("div");
+        tdiv.id = divId;
+        document.body.appendChild(tdiv);
+    }
+    tdiv.innerHTML += message;
+}
+
 function getFormValue(divId, defVal) {
     var tdiv = document.getElementById(divId);
     if ((tdiv !== undefined) && (tdiv !== null)) {
@@ -34,6 +44,12 @@ var GSet = {
     scale: 100,
     bright: 100,
     rotate: 0,
+    recorded: [],
+    eleId: {
+        "jsonEditField": "setEdit",
+        "jsonRecordField": "recodedSet",
+        "canvasId": "canvas"
+    },
     img: null,
     canvas: null,
     context: null
@@ -164,8 +180,8 @@ function clearSet(set) {
     set.bright = 100;
 }
 
-function loadAndDisplayImage(canvId, imgUri, set) {
-    set.canvas = document.getElementById(canvId);
+function loadAndDisplayImage(imgUri, set) {
+    set.canvas = document.getElementById(set.eleId.canvasId);
     set.context = canvas.getContext('2d');
     clearSet(set);
     var img = set.img = new Image();
@@ -175,9 +191,8 @@ function loadAndDisplayImage(canvId, imgUri, set) {
         updateJSONEdit(set);
     };
     img.src = imgUri;
-   
-}
 
+}
 
 function slideChange(set, obj) {
     readControlVal(set);
@@ -194,22 +209,53 @@ function resetBtn(set) {
     updateJSONEdit(set);
 }
 
-function updateJSONEdit(set) {
+function getJSON(set) {
     var clone = JSON.parse(JSON.stringify(set))
     delete clone.img;
     delete clone.canvas;
     delete clone.context;
-    setFormValue("setEdit", JSON.stringify(clone, null, ' '));
+    delete clone.recorded;
+    delete clone.eleId
+    return clone;
+}
+function updateJSONEdit(set) {
+    var clone = getJSON(set);
+    setFormValue(set.eleId.jsonEditField, JSON.stringify(clone, null, ' '));
 }
 
-function applySettings(set, fldId) {
-    var setStr = getFormValue(fldId);
-    var tobj = JSON.parse(setStr);
-    for (var akey in tobj) {
-        set[akey] = tobj[akey];
+function copyKeyVal(srcObj, destObj) {
+    for (var akey in srcObj) {
+        destObj[akey] = srcObj[akey];
     }
+}
+
+function applySettings(set) {
     updateControlDispVal(set);
     setControlVal(set);
     drawImage(set);
+}
 
+
+function applySettingsBtn(set) {
+    var setStr = getFormValue(set.eleId.jsonEditField);
+    var tobj = JSON.parse(setStr);
+    copyKeyVal(tobj, set);
+    applySettings(set);
+}
+
+function recordBtn(set) {
+    var jval = getFormValue(set.eleId.jsonEditField).replace("\n", " ").replace("  ", " ");
+    set.recorded.push(jval);
+    var ndx = set.recorded.length - 1;
+    var tstr = "<li><code class='recordedCode' onClick='restoreNum(GSet, "
+        + ndx + " )'>" + jval + "</code></li>";
+    appendDiv(set.eleId.jsonRecordField, tstr)
+}
+
+function restoreNum(set, ndx) {
+    var jstr = set.recorded[ndx];
+    var tobj = JSON.parse(jstr);
+    copyKeyVal(tobj, set);
+    updateJSONEdit(set);
+    applySettings(set);
 }
