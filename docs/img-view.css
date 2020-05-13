@@ -15,6 +15,7 @@ label.sliderLabel {
     display: inline-block;
     text-align: left;
     vertical-align: top;
+    margin-left: 2em;
 }
 
 #thumbnails {
