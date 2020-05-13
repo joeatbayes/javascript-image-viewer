@@ -9,7 +9,7 @@ As shown below the 4 views used in the determination at 6 megabytes each would n
 
 The use of the metadata saves in network resources  since we only need to transmit the original view to the browser.    Reducing storage consumed by the view images also reduces the backup sizes and the associated network infrastructure required to duplicate images to DR sites.  
 
-You help annotate the drawing with lines by clicking on the image.  To stop one series of lines and start another press ESC or the button "Stop Draw".   To remove all lines for the current view press the "Clear Draw" button.
+You help annotate the drawing with lines by clicking on the image.  Once you click on image once to start drawing it will add a new line to the series each time you click.  To stop one series of lines and start another press ESC or the button "Stop Draw".   To remove all lines for the current view press the "Clear Draw" button.
 
 # Sample Views 
 
