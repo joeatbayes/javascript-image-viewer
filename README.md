@@ -11,7 +11,7 @@ The use of the metadata saves in network resources  since we only need to transm
 
 You help annotate the drawing with lines by clicking on the image.  To stop one series of lines and start another press ESC or the button "Stop Draw".   To remove all lines for the current view press the "Clear Draw" button.
 
-# Sample Views
+# Sample Views 
 
 ### Default view for XRAY
 
