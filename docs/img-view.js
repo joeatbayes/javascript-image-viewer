@@ -244,10 +244,15 @@ function applySettingsBtn(set) {
 }
 
 function recordBtn(set) {
-    var jval = getFormValue(set.eleId.jsonEditField).replace("\n", " ").replace("  ", " ");
+    var clone = getJSON(set);
+    var vname = getFormValue("viewName").trim();
+    if (vname > " ") {
+        clone.viewName = vname;
+    }
+    var jval = JSON.stringify(clone).replace(",", ", ");
     set.recorded.push(jval);
     var ndx = set.recorded.length - 1;
-    var tstr = "<li><code class='recordedCode' onClick='restoreNum(GSet, "
+    var tstr = "<li><b>" + vname  + ": <code class='recordedCode' onClick='restoreNum(GSet, "
         + ndx + " )'>" + jval + "</code></li>";
     appendDiv(set.eleId.jsonRecordField, tstr)
 }
