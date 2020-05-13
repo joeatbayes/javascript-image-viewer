@@ -37,6 +37,16 @@ function setFormValue(divId, value) {
     return undefined;
 }
 
+function copyKeyVal(srcObj, destObj) {
+    for (var akey in srcObj) {
+        destObj[akey] = srcObj[akey];
+    }
+}
+
+function replaceAll(str, searStr, repStr) {
+      return str.split(searStr).join(repStr);
+}
+
 var GSet = {
     xoff: 0.0,
     yoff: 0.0,
@@ -223,11 +233,7 @@ function updateJSONEdit(set) {
     setFormValue(set.eleId.jsonEditField, JSON.stringify(clone, null, ' '));
 }
 
-function copyKeyVal(srcObj, destObj) {
-    for (var akey in srcObj) {
-        destObj[akey] = srcObj[akey];
-    }
-}
+
 
 function applySettings(set) {
     updateControlDispVal(set);
@@ -249,7 +255,7 @@ function recordBtn(set) {
     if (vname > " ") {
         clone.viewName = vname;
     }
-    var jval = JSON.stringify(clone).replace(",", ", ");
+    var jval = replaceAll(JSON.stringify(clone), ",", ", ");
     set.recorded.push(jval);
     var ndx = set.recorded.length - 1;
     var tstr = "<li><b>" + vname  + ": <code class='recordedCode' onClick='restoreNum(GSet, "
