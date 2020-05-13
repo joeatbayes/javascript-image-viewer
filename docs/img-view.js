@@ -44,7 +44,7 @@ function copyKeyVal(srcObj, destObj) {
 }
 
 function replaceAll(str, searStr, repStr) {
-      return str.split(searStr).join(repStr);
+    return str.split(searStr).join(repStr);
 }
 
 var GSet = {
@@ -55,6 +55,8 @@ var GSet = {
     bright: 100,
     rotate: 0,
     recorded: [],
+    draw: [],
+    currLoc: null,
     eleId: {
         "jsonEditField": "setEdit",
         "jsonRecordField": "recodedSet",
@@ -92,6 +94,43 @@ function readControlVal(set) {
     set.contrast = parseInt(getFormValue("contrast", 100), 10);
     set.bright = parseInt(getFormValue("brightness", 100), 10);
 }
+
+// draw mounding boxes
+function drawSeg(ctx, set) {
+    if (set.draw.length > 0) {
+        ctx.save();
+        var stat = "UP";
+        ctx.beginPath();
+        ctx.strokeStyle = 'purple';
+        ctx.lineWidth = 2;
+        for (var ndx in set.draw) {
+            var loc = set.draw[ndx];
+            if (loc.x == -1) {
+                stat = "UP";
+                continue;
+            }
+            if (stat == "UP") {
+                ctx.moveTo(loc.x, loc.y);
+                stat = "DN";
+            } else {
+                ctx.lineTo(loc.x, loc.y);
+                ctx.stroke();
+            }
+        }
+        if ((set.currLoc != null) && (stat == "DN")) {
+            ctx.closePath();
+            ctx.beginPath();
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = 'red';
+            ctx.moveTo(loc.x, loc.y);
+            ctx.lineTo(set.currLoc.x, set.currLoc.y);
+            ctx.stroke();
+        }
+        ctx.closePath();
+        ctx.restore();
+    }
+}
+
 
 function drawImage(set) {
     var img = set.img;
@@ -173,7 +212,9 @@ function drawImage(set) {
     }
     ctx.drawImage(img, imgTopLeftX, imgTopLeftY, imgWidth, imgHeigth, portOffX, portOffY, portWidth, portHeight);
     ctx.restore();
+    drawSeg(ctx, set);
 }
+
 
 function drawToFit(set) {
     var scale = set.scale = Math.min(set.canvas.width / set.img.width, set.canvas.height / set.img.height);
@@ -225,7 +266,8 @@ function getJSON(set) {
     delete clone.canvas;
     delete clone.context;
     delete clone.recorded;
-    delete clone.eleId
+    delete clone.eleId;
+    delete clone.currLoc;
     return clone;
 }
 function updateJSONEdit(set) {
@@ -233,14 +275,11 @@ function updateJSONEdit(set) {
     setFormValue(set.eleId.jsonEditField, JSON.stringify(clone, null, ' '));
 }
 
-
-
 function applySettings(set) {
     updateControlDispVal(set);
     setControlVal(set);
     drawImage(set);
 }
-
 
 function applySettingsBtn(set) {
     var setStr = getFormValue(set.eleId.jsonEditField);
@@ -258,7 +297,7 @@ function recordBtn(set) {
     var jval = replaceAll(JSON.stringify(clone), ",", ", ");
     set.recorded.push(jval);
     var ndx = set.recorded.length - 1;
-    var tstr = "<li><b>" + vname  + ": <code class='recordedCode' onClick='restoreNum(GSet, "
+    var tstr = "<li><b>" + vname + ": <code class='recordedCode' onClick='restoreNum(GSet, "
         + ndx + " )'>" + jval + "</code></li>";
     appendDiv(set.eleId.jsonRecordField, tstr)
 }
@@ -270,3 +309,50 @@ function restoreNum(set, ndx) {
     updateJSONEdit(set);
     applySettings(set);
 }
+
+function canvasCoord(canvas, x, y) {
+    var bbox = canvas.getBoundingClientRect();
+
+    return {
+        x: x - bbox.left * (canvas.width / bbox.width),
+        y: y - bbox.top * (canvas.height / bbox.height)
+    };
+}
+
+function canvasMouseDown(e, set) {
+    var loc = canvasCoord(set.canvas, e.clientX, e.clientY);
+    set.draw.push(loc);
+    drawImage(set);
+}
+
+function canvasMouseUp(e, set) {
+    var loc = canvasCoord(set.canvas, e.clientX, e.clientY);
+}
+
+function canvasMouseMove(e, set) {
+    if (set.canvas == null) {return;}
+    var loc = canvasCoord(set.canvas, e.clientX, e.clientY);
+    set.currLoc = loc;
+    if (set.draw.length > 0) {
+        drawImage(set);
+    }
+}
+
+function canvasTerminateDraw(set) {
+    set.draw.push({x:-1,y:-1});
+    drawImage(set);
+}
+
+function canvasKeyDown(event, set) {
+    // TODO: Check mouse location inside a the canvas and bubble
+    // up if not.
+    if ((event.key == "Escape") && (set.draw.length > 0)) {
+        canvasTerminateDraw(set);
+    }
+}
+
+function clearDraw(set) {
+    set.draw = [];
+    drawImage(set);
+}
+

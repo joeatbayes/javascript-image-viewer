@@ -5,8 +5,9 @@
     <script src="img-view.js" type="text/javascript"></script>
 </head>
 
-<body onload="loadAndDisplayImage('img/i0241.jpg', GSet)">
-    <canvas id="canvas" width="800" height="600"></canvas>
+<body onload="loadAndDisplayImage('img/i0241.jpg', GSet)" onkeydown="canvasKeyDown(event, GSet)">
+    <canvas id="canvas" width="800" height="600" onmousedown="canvasMouseDown(event,GSet)"
+        onmouseup="canvasMouseUp(event,GSet)" onmousemove="canvasMouseMove(event,GSet)"></canvas>
     <div id="controls">
         <h3>Controls</h3>
         <label class="sliderLabel" for="scale">Scale</label>
@@ -47,9 +48,13 @@
         <span id="brightVal" class="sliderVal"></span>
         <br />
         <hr>
+
         <button type="button" id="resetBtn" onClick="resetBtn(GSet)">Reset</button>
+        <button type="button" id="clearDrawBtn" onClick="clearDraw(GSet)">Clear Draw</button>
+        <button type="button" id="stopDrawBtn" onClick="canvasTerminateDraw(GSet)"
+            title="You can also press Esc key to stop draw sequence">Stop Draw</button>
         <label for="viewName">View Name:</label>
-        <input type="text" name="viewName" id="viewName"/>
+        <input type="text" name="viewName" id="viewName" />
         <button type="button" id="record" onClick="recordBtn(GSet)">Record</button>
         <br />
 
@@ -67,25 +72,19 @@
     </div>
     <div id="thumbnails">
         <img src="img/i0241.jpg" title="img/i0241.jpg" onClick='loadAndDisplayImage("img/i0241.jpg", GSet)' />
-        <img src="img/DSC_0002.JPG" title="DSC_0002.JPG"
-            onClick='loadAndDisplayImage("img/DSC_0002.JPG", GSet)' />
-        <img src="img/DSC_0003.JPG" title="DSC_0003.JPG"
-            onClick='loadAndDisplayImage("img/DSC_0003.JPG", GSet)' />
-        <img src="img/DSC_0007.JPG" title="DSC_0007.JPG"
-            onClick='loadAndDisplayImage("img/DSC_0007.JPG", GSet)' />
-        <img src="img/DSC_0008.JPG" title="DSC_0008.JPG"
-            onClick='loadAndDisplayImage("img/DSC_0008.JPG", GSet)' />
-        <img src="img/DSC_0009.JPG" title="DSC_0009.JPG"
-            onClick='loadAndDisplayImage("img/DSC_0009.JPG", GSet)' />
-        <img src="img/DSC_0046.JPG" title="DSC_0046.JPG"
-            onClick='loadAndDisplayImage("img/DSC_0046.JPG", GSet)' />
+        <img src="img/DSC_0002.JPG" title="DSC_0002.JPG" onClick='loadAndDisplayImage("img/DSC_0002.JPG", GSet)' />
+        <img src="img/DSC_0003.JPG" title="DSC_0003.JPG" onClick='loadAndDisplayImage("img/DSC_0003.JPG", GSet)' />
+        <img src="img/DSC_0007.JPG" title="DSC_0007.JPG" onClick='loadAndDisplayImage("img/DSC_0007.JPG", GSet)' />
+        <img src="img/DSC_0008.JPG" title="DSC_0008.JPG" onClick='loadAndDisplayImage("img/DSC_0008.JPG", GSet)' />
+        <img src="img/DSC_0009.JPG" title="DSC_0009.JPG" onClick='loadAndDisplayImage("img/DSC_0009.JPG", GSet)' />
+        <img src="img/DSC_0046.JPG" title="DSC_0046.JPG" onClick='loadAndDisplayImage("img/DSC_0046.JPG", GSet)' />
     </div>
 
-    <ul id="recodedSet">
+    <ul id="recordedSet">
         Click on record button above to add that set to the end of this list.
         Click on items in this list to restore those settings to sliders above.
-    
-    </div>
+
+    </ul>
 </body>
 
 </html>
