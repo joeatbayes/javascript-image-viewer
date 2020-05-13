@@ -312,10 +312,9 @@ function restoreNum(set, ndx) {
 
 function canvasCoord(canvas, x, y) {
     var bbox = canvas.getBoundingClientRect();
-
-    return {
-        x: x - bbox.left * (canvas.width / bbox.width),
-        y: y - bbox.top * (canvas.height / bbox.height)
+    return   {
+        x: Math.round(x - bbox.left * (canvas.width / bbox.width)),
+        y: Math.round(y - bbox.top * (canvas.height / bbox.height))
     };
 }
 
