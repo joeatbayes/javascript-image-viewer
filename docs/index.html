@@ -12,39 +12,39 @@
         <h3>Controls</h3>
         <label class="sliderLabel" for="scale">Scale</label>
         <input id="scale" type="range" min="0.05" max="2.5" value="0" class="slider" step="0.01"
-            onInput="slideChange(GSet, this)" />
+            onInput="slideChange(GSet, this)"  onchange="slideChange(GSet, this)" />
         <span id="scaleVal" class="sliderVal"></span>
         <!-- Add + - Icons to scale up or down by 15% from starting value.-->
         <br />
 
         <label class="sliderLabel" for="xoffset">X Offset</label>
         <input id="xoff" type="range" min="0.00" max="1.0" value="0.0" step="0.01" class="slider"
-            onInput="slideChange(GSet, this)" />
+            onInput="slideChange(GSet, this)" onchange="slideChange(GSet, this)"  />
         <span id="xoffVal" class="sliderVal"></span>
         <br />
 
         <label class="sliderLabel" for="yoffset">Y Offset</label>
         <input id="yoff" type="range" min="0.00" max="1.0" step="0.01" value="0.0" class="slider"
-            onInput="slideChange(GSet, this)" />
+            onInput="slideChange(GSet, this)" onchange="slideChange(GSet, this)" />
         <span id="yoffVal" class="sliderVal"></span>
         <br />
 
         <label class="sliderLabel" for="rotate">Rotate</label>
         <input id="rotate" type="range" min="-180" max="180" step="1" value="0" class="slider"
-            onInput="slideChange(GSet, this)" />
+            onInput="slideChange(GSet, this)" onchange="slideChange(GSet, this)" />
         <span id="rotateVal" class="sliderVal"></span>
         <br />
 
 
         <label class="sliderLabel" for="Contrast">Contrast</label>
         <input id="contrast" type="range" min="25" max="300" value="100" class="slider"
-            onInput="slideChange(GSet, this)" />
+            onInput="slideChange(GSet, this)" onchange="slideChange(GSet, this)" />
         <span id="contrastVal" class="sliderVal"></span>
         <br />
 
         <label class="sliderLabel" for="Brighness">Brightness</label>
         <input id="brightness" type="range" min="25" max="300" value="100" class="slider"
-            onInput="slideChange(GSet, this)" />
+            onInput="slideChange(GSet, this)" onchange="slideChange(GSet, this)" />
         <span id="brightVal" class="sliderVal"></span>
         <br />
         <hr>
