@@ -3,9 +3,7 @@ label.sliderLabel {
     display:inline-block;
 }
 
-.slider {
-    width: 50em;
-}
+
 #canvas {
     display: inline-block;
     border: 1px solid grey;
@@ -16,6 +14,7 @@ label.sliderLabel {
     text-align: left;
     vertical-align: top;
     margin-left: 2em;
+    width: 800px;
 }
 
 #thumbnails {
@@ -54,4 +53,15 @@ label.sliderLabel {
 
 button {
     margin-right: 2em;
+}
+
+input.slider {
+    width: 600px;
+    display: inline-block;
+}
+
+div.slider {
+    display:block;
+    padding: 0px;
+    margin: 0px;
 }
