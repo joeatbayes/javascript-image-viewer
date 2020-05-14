@@ -55,9 +55,16 @@ button {
     margin-right: 2em;
 }
 
+label.sliderLabel {
+    padding: 0px;
+    margin: 0px;
+}
+
 input.slider {
     width: 600px;
     display: inline-block;
+    padding: 0px;
+    margin: 0px;
 }
 
 div.slider {
