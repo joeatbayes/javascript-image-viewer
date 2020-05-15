@@ -57,9 +57,10 @@ var GSet = {
     recorded: [],
     draw: [],
     currLoc: null,
+    lastMouseDown: { x: -10, y: -10 },
     eleId: {
         "jsonEditField": "setEdit",
-        "jsonRecordField": "recodedSet",
+        "jsonRecordField": "recordedSet",
         "canvasId": "canvas"
     },
     img: null,
@@ -71,7 +72,7 @@ function updateControlDispVal(set) {
     toDiv("scaleVal", set.scale.toFixed(2));
     toDiv("xoffVal", set.xoff.toFixed(2));
     toDiv("yoffVal", set.yoff.toFixed(2));
-    toDiv("rotateVal", set.rotate.toFixed(1));
+    toDiv("irotateVal", set.rotate.toFixed(1));
     toDiv("contrastVal", set.contrast);
     toDiv("brightVal", set.bright);
 }
@@ -80,7 +81,7 @@ function setControlVal(set) {
     setFormValue("scale", set.scale);
     setFormValue("xoff", set.xoff);
     setFormValue("yoff", set.yoff);
-    setFormValue("rotate", set.rotate);
+    setFormValue("irotate", set.rotate);
     setFormValue("contrast", set.contrast);
     setFormValue("brightness", set.bright);
     updateControlDispVal(set);
@@ -90,7 +91,7 @@ function readControlVal(set) {
     set.scale = parseFloat(getFormValue("scale", 1.0));
     set.xoff = parseFloat(getFormValue("xoff", 0.0));
     set.yoff = parseFloat(getFormValue("yoff", 0.0));
-    set.rotate = parseInt(getFormValue("rotate", 0), 10);
+    set.rotate = parseInt(getFormValue("irotate", 0), 10);
     set.contrast = parseInt(getFormValue("contrast", 100), 10);
     set.bright = parseInt(getFormValue("brightness", 100), 10);
 }
@@ -219,6 +220,8 @@ function drawImage(set) {
 function drawToFit(set) {
     var scale = set.scale = Math.min(set.canvas.width / set.img.width, set.canvas.height / set.img.height);
     drawImage(set);
+    setControlVal(set);
+    updateControlDispVal(set);
 }
 
 // Clear setting to default;
@@ -231,6 +234,7 @@ function clearSet(set) {
     set.bright = 100;
 }
 
+
 function loadAndDisplayImage(imgUri, set) {
     set.canvas = document.getElementById(set.eleId.canvasId);
     set.context = canvas.getContext('2d');
@@ -242,7 +246,6 @@ function loadAndDisplayImage(imgUri, set) {
         updateJSONEdit(set);
     };
     img.src = imgUri;
-
 }
 
 function slideChange(set, obj) {
@@ -250,6 +253,37 @@ function slideChange(set, obj) {
     updateControlDispVal(set);
     drawImage(set);
     updateJSONEdit(set);
+}
+
+function btnRotate45(set, obj) {
+    set.rotate += 45;
+    if (set.rotate >= 180) {
+        set.rotate -= 180;
+    }
+    setControlVal(set);
+    slideChange(set, obj);
+}
+
+function zoomInBtn(set, obj) {
+    set.scale += set.scale * 0.2;
+    setControlVal(set);
+    slideChange(set, obj);
+
+}
+
+function zoomOutBtn(set, obj) {
+    set.scale -= set.scale * 0.2;
+    setControlVal(set);
+    slideChange(set, obj);
+
+}
+
+function panModeBtn(set, obj) {
+
+}
+
+function editModeBtn(set, obj) {
+    canvasTerminateDraw(set);
 }
 
 function resetBtn(set) {
@@ -312,15 +346,52 @@ function restoreNum(set, ndx) {
 
 function canvasCoord(canvas, x, y) {
     var bbox = canvas.getBoundingClientRect();
-    return   {
+    return {
         x: Math.round(x - bbox.left * (canvas.width / bbox.width)),
         y: Math.round(y - bbox.top * (canvas.height / bbox.height))
     };
 }
 
+function centerOnPoint(set, x, y) {
+
+}
+
+function canvasCoordToScaledCoord() {
+
+}
+
+function canvasCoordToImageCoord() {
+
+}
+
+function isSameLoc(loc1, loc2) {
+    if (((loc1.x - loc2.x) <= 2) && ((loc1.y - loc2.y) <= 2)) {
+        return true;
+    } else {
+        return false;
+    }
+
+}
 function canvasMouseDown(e, set) {
     var loc = canvasCoord(set.canvas, e.clientX, e.clientY);
-    set.draw.push(loc);
+
+    if (isSameLoc(loc, set.lastMouseDown)) {
+        // Same location for second click so zoom on that point.
+        set.scale += set.scale * 0.2;
+        // Now center on point clicked
+
+        // If the point used for double click is same as last
+        // draw point then remove it from the draw point list.
+        if (set.draw.length > 0) {
+            var priorDrawPt = set.draw[set.draw.length - 1];
+            if (isSameLoc(loc, priorDrawPt)) {
+                set.draw.pop();
+            }
+        }
+    } else {
+        set.draw.push(loc);
+    }
+    set.currLoc = set.lastMouseDown = loc;
     drawImage(set);
 }
 
@@ -329,7 +400,7 @@ function canvasMouseUp(e, set) {
 }
 
 function canvasMouseMove(e, set) {
-    if (set.canvas == null) {return;}
+    if (set.canvas == null) { return; }
     var loc = canvasCoord(set.canvas, e.clientX, e.clientY);
     set.currLoc = loc;
     if (set.draw.length > 0) {
@@ -338,7 +409,7 @@ function canvasMouseMove(e, set) {
 }
 
 function canvasTerminateDraw(set) {
-    set.draw.push({x:-1,y:-1});
+    set.draw.push({ x: -1, y: -1 });
     drawImage(set);
 }
 

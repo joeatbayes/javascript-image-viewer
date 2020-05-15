@@ -14,7 +14,7 @@ label.sliderLabel {
     text-align: left;
     vertical-align: top;
     margin-left: 2em;
-    width: 800px;
+    width: 820px;
 }
 
 #thumbnails {
@@ -67,8 +67,31 @@ input.slider {
     margin: 0px;
 }
 
+#rotateCont button.icon {
+      font-size: medium;
+}
+
 div.slider {
     display:block;
     padding: 0px;
     margin: 0px;
+}
+
+#canvasClose {
+    display: inline-block;
+}
+
+#canvasClose canvas {
+    display: block;
+}
+
+button.icon {
+    border-radius: 9px;
+    margin: 2px;
+    padding: 1px;
+    font-size: x-large;
+}
+
+#buttonBar {
+    display: inline-block;
 }
